@@ -1,0 +1,1 @@
+# Blog criado utilizando Django e Docker
