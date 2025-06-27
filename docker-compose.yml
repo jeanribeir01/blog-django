@@ -2,23 +2,33 @@ version: '3.9'
 
 services:
   djangoapp:
-    container_name: djangoapp
-    build:
-      context: .
-    ports:
-      - 8000:8000
+    build: .
     volumes:
       - ./djangoapp:/djangoapp
-      - ./data/web/static:/data/web/static/
-      - ./data/web/media:/data/web/media/
+      - static_data:/data/web/static/
+      - media_data:/data/web/media/
     env_file:
       - ./dotenv_files/.env
     depends_on:
       - psql
+
   psql:
-    container_name: psql
     image: postgres:16-alpine
     volumes:
       - ./data/postgres/data:/var/lib/postgresql/data/
     env_file:
       - ./dotenv_files/.env
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_data:/data/web/static/
+      - media_data:/data/web/media/
+    depends_on:
+      - djangoapp
+
+volumes:
+  static_data:
+  media_data:
