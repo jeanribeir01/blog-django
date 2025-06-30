@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% autoescape on %}
+    {% block content %}
+        <article>
+            <h2>{{ post.title }}</h2>
+            <p>
+                <strong>Autor:</strong> {{ post.author.username }} |
+                <strong>Data:</strong> {{ post.date|date:"d/m/Y" }}
+            </p>
+
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
+            {% endif %}
+
+            <div>
+                {{ post.body|safe }}
+            </div>
+        </article>
+    {% endblock %}
+
+{% endautoescape %}
