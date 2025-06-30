@@ -1,9 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Django - Blog</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
 <body>
-    {% include 'partials/_header.html' %}
+{% include 'partials/_header.html' %}
 
-    <main>
-        {% block content %}{% endblock content %}
-    </main>
+<main>
+    {% block content %}
 
-    {% include 'partials/_footer.html' %}
+    {% endblock content %}
+</main>
+
+{% include 'partials/_footer.html' %}
 </body>
+
+</html>
