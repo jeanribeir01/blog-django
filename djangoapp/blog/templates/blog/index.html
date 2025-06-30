@@ -1,19 +1,11 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Meu blog</title>
-</head>
-<body>
+{% block content %}
     {% autoescape on %}
         {% for post in posts %}
-            <h2>{{ post.title }}</h2>
+            <a href="{% url 'post_detail' post.slug %}"><h2>{{ post.title }}</h2></a>
             <p>Por: {{ post.author.username }} em {{ post.date|date:"d/m/Y" }}</p>
             <p>{{ post.body }}</p>
             <img src="{{ post.image.url }}" alt="{{ post.title }}">
             <hr>
         {% endfor %}
     {% endautoescape %}
-</body>
-</html>
+{% endblock content %}
