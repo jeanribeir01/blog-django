@@ -26,7 +26,8 @@ EXPOSE 8000
 # imagem como uma nova camada.
 # Agrupar os comandos em um único RUN pode reduzir a quantidade de camadas da
 # imagem e torná-la mais eficiente.
-RUN sed -i 's/\r$//' /scripts/commands.sh && \
+RUN apk add --no-cache postgresql16-client && \
+  sed -i 's/\r$//' /scripts/commands.sh && \
   python -m venv /venv && \
   /venv/bin/pip install --upgrade pip && \
   /venv/bin/pip install -r /djangoapp/requirements.txt && \

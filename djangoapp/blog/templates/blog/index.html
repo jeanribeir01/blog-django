@@ -6,6 +6,14 @@
     <title>Meu blog</title>
 </head>
 <body>
-    <h1>Meu Blog</h1>
+    {% autoescape on %}
+        {% for post in posts %}
+            <h2>{{ post.title }}</h2>
+            <p>Por: {{ post.author.username }} em {{ post.date|date:"d/m/Y" }}</p>
+            <p>{{ post.body }}</p>
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            <hr>
+        {% endfor %}
+    {% endautoescape %}
 </body>
 </html>
