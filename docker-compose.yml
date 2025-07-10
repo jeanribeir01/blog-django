@@ -4,9 +4,12 @@ services:
   djangoapp:
     build: .
     volumes:
+      # Espelha o código para atualizações em Python
       - ./djangoapp:/djangoapp
-      - static_data:/data/web/static/
-      - media_data:/data/web/media/
+      # Usa um volume nomeado para o collectstatic (evita conflito de permissão)
+      - django_static_volume:/djangoapp/staticfiles
+      # Espelha a pasta de mídia para o Django salvar os uploads
+      - ./mediafiles:/djangoapp/mediafiles
     env_file:
       - ./dotenv_files/.env
     depends_on:
@@ -24,11 +27,14 @@ services:
     ports:
       - "80:80"
     volumes:
-      - static_data:/data/web/static/
-      - media_data:/data/web/media/
+      # Nginx serve o CSS/JS diretamente da sua pasta local (para live-reload)
+      - ./staticfiles:/var/www/staticfiles
+      # Nginx tem acesso aos estáticos do admin via volume nomeado
+      - django_static_volume:/var/www/django_admin_static
+      # Nginx serve as imagens diretamente da sua pasta local
+      - ./mediafiles:/var/www/mediafiles
     depends_on:
       - djangoapp
 
 volumes:
-  static_data:
-  media_data:
+  django_static_volume:
