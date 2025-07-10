@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# O shell irá encerrar a execução do script quando um comando falhar
+# Encerra o script se qualquer comando falhar
 set -e
 
 while ! pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -q; do
@@ -10,7 +10,17 @@ done
 
 echo "✅ Postgres Database Started Successfully ($POSTGRES_HOST:$POSTGRES_PORT)"
 
+# --- ETAPA DE SETUP (como root) ---
+# O usuário root tem permissão para escrever na pasta de estáticos.
+echo "🚀 Running production setup..."
 python manage.py collectstatic --noinput
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
-gunicorn project.wsgi --bind 0.0.0.0:8000
+
+# --- ETAPA DE EXECUÇÃO (como duser) ---
+echo "✅ Setup complete. Starting Gunicorn server..."
+exec gunicorn project.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers 4 \
+    --user=duser \
+    --group=duser

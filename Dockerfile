@@ -26,19 +26,17 @@ EXPOSE 8000
 # imagem como uma nova camada.
 # Agrupar os comandos em um único RUN pode reduzir a quantidade de camadas da
 # imagem e torná-la mais eficiente.
-RUN apk add --no-cache postgresql16-client && \
-  sed -i 's/\r$//' /scripts/commands.sh && \
-  python -m venv /venv && \
+RUN apk add --no-cache postgresql16-client su-exec && \
+    sed -i 's/\r$//' /scripts/commands.sh && \
+    python -m venv /venv && \
   /venv/bin/pip install --upgrade pip && \
   /venv/bin/pip install -r /djangoapp/requirements.txt && \
   adduser --disabled-password --no-create-home duser && \
-  mkdir -p /data/web/static && \
-  mkdir -p /data/web/media && \
+  mkdir -p /djangoapp/staticfiles && \
+  mkdir -p /djangoapp/mediafiles && \
   chown -R duser:duser /venv && \
-  chown -R duser:duser /data/web/static && \
-  chown -R duser:duser /data/web/media && \
-  chmod -R 755 /data/web/static && \
-  chmod -R 755 /data/web/media && \
+  chown -R duser:duser /djangoapp/staticfiles && \
+  chown -R duser:duser /djangoapp/mediafiles && \
   chmod -R +x /scripts
 
 # Adiciona a pasta scripts e venv/bin
