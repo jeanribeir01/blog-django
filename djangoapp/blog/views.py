@@ -1,5 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from blog.models import Post
+from django.views.generic import ListView
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = 'posts'
+    paginate_by = 5
 
 def index(request):
     return render(
