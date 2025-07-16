@@ -11,7 +11,7 @@ Este projeto é um blog full-stack construído com Django, com o objetivo princi
 
 O foco deste projeto é demonstrar o conhecimento em todo o ciclo de vida do desenvolvimento de software, desde a configuração do ambiente, passando pela lógica de backend, testes automatizados, fluxo de trabalho de frontend moderno, até a preparação para o deploy.
 
-![Screenshot da Aplicação](https://imgur.com/a/FOYyHxL)
+<img width="1557" height="948" alt="wmp4CRJ" src="https://github.com/user-attachments/assets/fb3d0b57-2808-4746-910a-44b583746c24" />
 
 ---
 
