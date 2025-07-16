@@ -65,7 +65,7 @@ Siga os passos abaixo para executar o projeto em seu ambiente local.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/jeanribeir01/blog-django.git](https://github.com/jeanribeir01/blog-django.git)
+    git clone https://github.com/jeanribeir01/blog-django.git
     cd blog-django
     ```
 
