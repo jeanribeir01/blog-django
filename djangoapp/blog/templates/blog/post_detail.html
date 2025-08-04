@@ -1,21 +1,100 @@
 {% extends 'base.html' %}
 {% autoescape on %}
     {% block content %}
-        <article>
-            <h2>{{ post.title }}</h2>
-            <p>
-                <strong>Autor:</strong> {{ post.author.username }} |
-                <strong>Data:</strong> {{ post.date|date:"d/m/Y" }}
-            </p>
-
-            {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
-            {% endif %}
-
-            <div>
-                {{ post.body|safe }}
+        <div class="max-w-4xl mx-auto">
+            <!-- Breadcrumbs -->
+            <div class="text-sm breadcrumbs mb-6">
+                <ul>
+                    <li><a href="/" class="link">Home</a></li>
+                    <li>{{ post.title|truncatechars:50 }}</li>
+                </ul>
             </div>
-        </article>
-    {% endblock %}
 
+            <article class="prose max-w-none">
+                <!-- Post Header -->
+                <div class="not-prose mb-8">
+                    <h1 class="text-4xl md:text-5xl font-bold text-base-content mb-4">{{ post.title }}</h1>
+                    
+                    <!-- Post Meta -->
+                    <div class="flex flex-wrap items-center gap-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <div class="avatar placeholder">
+                                <div class="bg-neutral text-neutral-content rounded-full w-10">
+                                    <span class="text-sm">{{ post.author.username|first|upper }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="font-semibold">{{ post.author.username }}</div>
+                                <div class="text-sm opacity-70">{{ post.date|date:"d \d\e F \d\e Y" }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="divider divider-horizontal"></div>
+                        
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <span class="text-sm opacity-70">{{ post.number_of_clicks }} visualizações</span>
+                        </div>
+
+                        {% if not post.status %}
+                            <div class="badge badge-warning">Draft</div>
+                        {% else %}
+                            <div class="badge badge-success">Publicado</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Categories -->
+                    {% if post.categories.all %}
+                        <div class="flex gap-2 mb-6">
+                            {% for category in post.categories.all %}
+                                <div class="badge badge-outline">{{ category.name }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Featured Image -->
+                {% if post.image %}
+                    <figure class="not-prose mb-8">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg">
+                    </figure>
+                {% endif %}
+
+                <!-- Post Content -->
+                <div class="text-base-content/90 leading-relaxed">
+                    {{ post.body|linebreaks }}
+                </div>
+
+                <!-- Post Actions -->
+                <div class="not-prose mt-12 pt-8 border-t border-base-300">
+                    <div class="flex flex-wrap gap-4 items-center justify-between">
+                        <div class="flex gap-2">
+                            <button class="btn btn-outline btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                Curtir
+                            </button>
+                            <button class="btn btn-outline btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                </svg>
+                                Compartilhar
+                            </button>
+                        </div>
+                        
+                        <a href="/" class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Voltar ao blog
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    {% endblock %}
 {% endautoescape %}
